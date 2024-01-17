@@ -22,3 +22,14 @@ jobs:
 
     - name: Run tests
       run: pytest
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy to Azure
+      run: |
+        python3 -m pip install --upgrade pip
+        python3 -m pip install -r requirements.txt  # If you have a requirements.txt file
+        python3 src/Simulator.py
