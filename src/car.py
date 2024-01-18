@@ -47,6 +47,7 @@ class Car(Vehicle):
         turn_right_mapping = {'N': 'E', 'E': 'S', 'S': 'W', 'W': 'N'}
         self.direction = turn_right_mapping[self.direction]
 
+# This function simply validates if the input is an Integer, I had to create a separate function as checking directly in the other function caused the tests to fail.
 def is_valid_integer(value):
     try:
         int_value = int(value)
@@ -59,14 +60,12 @@ def car_naming(cars):
         try:
             name = input("Please enter the name of the car: ")
 
-            # Check if the name already exists in the cars array
+            # Check if the name already exists in the cars array and prompt for retry; if the name is unique, break out of the loop and continue with the car creation
             if any(car.name == name for car in cars):
                 raise ValueError(f"A car with the name '{name}' already exists. Please choose a different name.\n\n")
             else:
-                # If the name is unique, break out of the loop and continue with the car creation
                 break
         except ValueError as e:
-            # Propagate the exception to be caught by the test
             print(f"Error: {e} Please try again.")
             logging.warning(f"User input caused the following error: '{e}' and was prompted for retry.")
         
@@ -77,14 +76,12 @@ def car_position(field, cars, name):
         try:
             position = input(f"Please enter initial position of car '{name}' in x y Direction format:")
 
-            # Split the input into three parts
+            # Split the input and Check if it has  three parts as expected.
             input_parts = position.split()
-
-            # Check if input had three parts
             if len(input_parts) != 3:
                 raise ValueError("Please enter information in the requested format.")
 
-            # Convert the first two input parts to integers and making direction uppercase
+            # Convert the first two input parts to integers and making direction uppercase (I could have chosen to reject lowercase inputs but felt this would make a nicer user experience)
             if is_valid_integer(input_parts[0]):
                 pos_x = int(input_parts[0])
             else:
@@ -97,27 +94,25 @@ def car_position(field, cars, name):
 
             direction = input_parts[2].upper()
 
-            # Check if both numbers are positive
+            # Check if both numbers are positive as 
             if pos_x < 0 or pos_y < 0:
                 raise ValueError("Please enter positive coordinates.")
 
             # Validation that position is within the field
             if (pos_x >= field.width or pos_y >= field.height):
-                raise ValueError(f'Please enter position within the field of {field.width} x {field.height}.')
+                raise ValueError(f'Please enter position within the field of {field.width} x {field.height}, meaning the max numbers are {field.width-1} x {field.height-1} as the field start at 0 x 0.')
 
-            # Validation on the direction
+            # Validation on the direction, this could be extended in the future to include diagonal directions, i.e. NE
             if direction not in ['N', 'S', 'E', 'W']:
                 raise ValueError("Please enter a valid direction!")
 
             # Validation that no other car already exists at that position
             if any(car.pos_x == pos_x and car.pos_y == pos_y for car in cars):
                 raise ValueError("Another car already exists at this position. Please choose a different position.")
-
-            # If all validations pass, break out of the loop and continue with the car creation
+            
             break
 
         except ValueError as e:
-            # Propagate the exception to be caught by the test
             print(f"Error: {e} Please try again.")
             logging.warning(f"User input caused the following error: '{e}' and was prompted for retry.")
 
@@ -127,17 +122,15 @@ def car_commands(name):
     while True:
         try:
             commands = input(f"Please enter the commands for car '{name}':")
-            # Define a regular expression pattern
+            # Define a regular expression pattern allowing only F L R inputs, this could be changed to add idle/parked or even U turn commands
             pattern = re.compile(r'^[FLR]+$')
 
-            # Use the pattern to match the string
             if pattern.match(commands):
                 break
             else:
                 raise ValueError("Commands invalid, please follow expected format.")
             
         except ValueError as e:
-            # Propagate the exception to be caught by the test
             print(f"Error: {e} Please try again.")
             logging.warning(f"User input caused the following error: '{e}' and was prompted for retry.")
     return commands

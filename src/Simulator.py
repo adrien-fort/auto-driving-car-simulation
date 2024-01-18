@@ -1,11 +1,10 @@
 import os
 import sys
 import logging
-# Get the current script's directory
-script_dir = os.path.dirname(os.path.abspath(__file__))
-# Get the project's root directory (assuming it's one level above the script)
-project_root = os.path.dirname(script_dir)
+
 # Add the project's root directory to sys.path (this failed to happen under certain conditions)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(script_dir)
 sys.path.insert(0, project_root)
 
 from src.setup import configure_logging
@@ -25,8 +24,8 @@ def main():
         field = Field.field_creation()
         cars = []
 
+        # Note the below loop could be improved in the future so that in first iteration it doesn't offer to run simulation with no car, this was not in the initial requirement though
         while True:
-            # Get input from the user
             option = input("Please choose from the following options:\n[1] Add car to field\n[2] Run simulation\n")
             
             #calling the car creation, not adding a break to allow repetition
@@ -34,7 +33,7 @@ def main():
                 logging.info("User has opted to create a new car.")
                 car_creation(field, cars)
 
-            #calling the simulation and breaking out of the nested loop
+            #calling the simulation and breaking out of the nested loop, as per requirement a different prompt is expected after simulation has run
             elif option == '2':
                 logging.info("User has opted to run the simulation.")
                 run_simul(field, cars)
@@ -45,7 +44,6 @@ def main():
                 logging.warning("User made an invalid choice and was prompted to retry")
         
         while True:
-            # Get input from the user after running simulation
             user_input = input("\nPlease choose from the following options:\n[1] Start over\n[2] Exit\n\n")
 
             if user_input == '1':
@@ -62,6 +60,5 @@ def main():
                 logging.warning("User made an invalid choice and was prompted to retry")
     
     return
-
 
 main()

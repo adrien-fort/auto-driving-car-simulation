@@ -1,14 +1,41 @@
 # auto-driving-car-simulation
 
-Simulation program to let cars move in a rectangular field with handling of potential collision between cars
+Simulation program to let cars move in a rectangular field with handling of potential collision between cars.
 
 # Starting the program
 
-Simulation.py in the src folder is where the main is and the programm starts, no other installation required other than Python.
+just run src/Simulation.py in the src folder, this is where the main is and the programm starts, no other installation required other than Python. The code can run on both Windows and Linux.
+
+# Assumptions made
+
+The code is currently designed around several assumptions:
+    -Based on the requirement, cars that reach the edge of the field are still active but stop moving forward (over the edge) and might continue to move after being told to turn.
+    -Cars involved in a collision do not disappear until the end of the simulation, thus more cars could collide at the same coordinates in later steps.
+    -Fields with 0 width or height are not allowed.
+
+
+# BoW/Improvements
+
+Below is a list of improvements that could be made but weren't in the initial requirements:
+    -Car could stop themselves before entering a collision
+    -Fields could be improved to include forbidden areas/coordinates (tree/wall/etc...)
+    -Car/Vehicules could be given more commands (idle/parked/U turn) and diagonal directions (NE, NW, etc...)
 
 # Tests
 
-Unit tests have been written in pytest and thus pytest should be used to run them, they are all stored in the "tests" and follow usual naming convention thus should all run if the "pytest" command is used.
+Unit tests have been written in pytest and thus pytest should be used to run them, they are all stored in the "tests" directory and follow usual naming convention thus can all be run at once if the "pytest" command is used.
+
+# Observability
+
+As this is a very basic application which doesn't even have API, no advanced telemetry except for logging has been put in place. The code will automatically create a logs directory under the project root and one log file per day will be created. 
+
+# Documentation
+
+Documentation was generated using Sphynx and is available in the docs directory.
+
+# Pipeline
+
+A very basic Github Action pipeline is in place which is triggered after a push, it will run the unit test against latest Ubuntu and will eventually let the code run on my Azure VM (stretch goal in progress).
 
 # License
 

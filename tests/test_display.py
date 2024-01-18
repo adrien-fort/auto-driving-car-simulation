@@ -31,8 +31,8 @@ def test_car_post_sim_display_nocol(capsys):
 """
 # Test the output from car post_sim_display function by redirecting standard output to a StringIO object, collision case
 def test_car_post_sim_display_nocol(capsys):
-    car1 = Car("Car1", 2, 2, 'E', ['F', 'F', 'R'], "collided")
-    car2 = Car("Car2", 4, 2, 'W', ['F', 'F', 'L'], "collided")
+    car1 = Car("Car1", 2, 2, 'E', ['F', 'F', 'R'], 'collided', {'with_car':'Car2','step':0})
+    car2 = Car("Car2", 4, 2, 'W', ['F', 'F', 'L'], 'collided', {'with_car':'Car1','step':0})
     cars = [car1, car2]
 
     captured_output = StringIO()

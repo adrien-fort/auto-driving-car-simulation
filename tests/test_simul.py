@@ -1,7 +1,8 @@
 from io import StringIO
 import sys
 import pytest
-from src.simul import is_collision, get_collided_car_name, update_collided_cars, is_within_boundaries, execute_command, run_simul
+from unittest.mock import patch, MagicMock
+from src.simul import Simulation, CarSimulation, run_simul
 from src.car import Car
 from src.field import Field
 
@@ -13,14 +14,14 @@ def field():
     return DummyField()
 
 # Testing the function that confirms if two cars have collided
-def test_is_collision():
+def test_is_car_collision():
     car1 = Car("Car1", 0, 0, 'N', [])
     car2 = Car("Car2", 0, 1, 'N', [])
     car3 = Car("Car3", 2, 2, 'S', [])
     cars = [car1, car2, car3]
 
-    assert is_collision(cars, car1, 0, 1)
-    assert is_collision(cars, car1, 2, 2)
+    assert CarSimulation.is_car_collision(cars, car1, 0, 1)
+    assert CarSimulation.is_car_collision(cars, car1, 2, 2)
 
 # Testing the function that goes to fetch the collided car name
 def test_get_collided_car_name():
@@ -29,9 +30,9 @@ def test_get_collided_car_name():
     car3 = Car("Car3", 2, 2, 'S', [])
     cars = [car1, car2, car3]
 
-    assert get_collided_car_name(cars, car1) == "Car2"
-    assert get_collided_car_name(cars, car2) == "Car1"
-    assert get_collided_car_name(cars, car3) is None
+    assert CarSimulation.get_collided_car_name(cars, car1) == "Car2"
+    assert CarSimulation.get_collided_car_name(cars, car2) == "Car1"
+    assert CarSimulation.get_collided_car_name(cars, car3) is None
 
 # Testing the function which updates the collided car status and collision details
 def test_update_collided_cars():
@@ -41,20 +42,20 @@ def test_update_collided_cars():
     car4 = Car("Car4", 2, 2, 'S', [])
     cars = [car1, car2, car3, car4]
 
-    update_collided_cars(cars, car1)
+    CarSimulation.update_collided_cars(cars, car1)
 
     assert car2.status == "collided"
     assert car2.collision_details == [{'with_car': 'Car1', 'step': 0}]
 
-    update_collided_cars(cars, car3)
+    CarSimulation.update_collided_cars(cars, car3)
 
     assert car4.status == "collided"
     assert car4.collision_details == [{'with_car': 'Car3', 'step': 0}]
 
 # Testing the function which ensures car is still in boundary of the field
 def test_is_within_boundaries(field):
-    assert is_within_boundaries(field, 2, 3)
-    assert not is_within_boundaries(field, 6, 3)
+    assert Simulation.is_within_boundaries(field, 2, 3)
+    assert not Simulation.is_within_boundaries(field, 6, 3)
 
 # Testing the execute command which orchestrate all the checks and actions by forcing a collision with car2
 def test_execute_command(capsys):
@@ -66,19 +67,19 @@ def test_execute_command(capsys):
     captured_output = StringIO()
     sys.stdout = captured_output
 
-    execute_command(field, car, 'F', cars, 0)
+    CarSimulation.execute_car_command(field, car, 'F', cars, 0)
     assert car.pos_y == 3
     assert car.status == "running"
     
-    execute_command(field, car, 'L', cars, 1)
+    CarSimulation.execute_car_command(field, car, 'L', cars, 1)
     assert car.direction == 'W'
     assert car.status == "running"
 
-    execute_command(field, car, 'F', cars, 2)
+    CarSimulation.execute_car_command(field, car, 'F', cars, 2)
     assert car.status == "collided"
 
 # Testing an end to end run of the simulation with two cars and a dummy field, no collision case
-def test_run_simul(capsys):
+def test_run_simul_nocol(capsys):
     car1 = Car("Car1", 2, 2, 'N', ['F', 'L', 'F'])
     car2 = Car("Car2", 3, 3, 'S', ['F', 'R', 'F'])
     cars = [car1, car2]
@@ -95,7 +96,7 @@ def test_run_simul(capsys):
         sys.stdout = sys.__stdout__
 
 # Testing an end to end run of the simulation with two cars and a dummy field, collision case
-def test_run_simul(capsys):
+def test_run_simul_col(capsys):
     car1 = Car("Car1", 2, 3, 'E', ['F', 'F', 'R'])
     car2 = Car("Car2", 4, 3, 'W', ['F', 'F', 'L'])
     cars = [car1, car2]
@@ -110,3 +111,73 @@ def test_run_simul(capsys):
         assert captured_output_str == expected_output
     finally:
         sys.stdout = sys.__stdout__
+
+class MockCar:
+    def __init__(self, name, direction, pos_x, pos_y, status="running"):
+        self.name = name
+        self.direction = direction
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+        self.status = status
+        self.collision_details = []
+
+    def move_forward(self):
+        # Mock move_forward method
+        pass
+
+    def turn_left(self):
+        # Mock turn_left method
+        pass
+
+    def turn_right(self):
+        # Mock turn_right method
+        pass
+
+class MockCar:
+    def __init__(self, name, direction, pos_x, pos_y, status="running"):
+        self.name = name
+        self.direction = direction
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+        self.status = status
+        self.collision_details = []
+
+    def move_forward(self):
+        if self.direction == 'N':
+            self.pos_y = self.pos_y + 1
+        elif self.direction == 'S':
+            self.pos_y = self.pos_y - 1
+        elif self.direction == 'E':
+            self.pos_x = self.pos_x + 1
+        elif self.direction == 'W':
+            self.pos_x = self.pos_x - 1
+
+    def turn_left(self):
+        # Mock turn_left method
+        pass
+
+    def turn_right(self):
+        # Mock turn_right method
+        pass
+
+def test_execute_car_command_move_forward_success():
+    field = Field(10,10)
+    car = MockCar(name="Car1", direction="N", pos_x=3, pos_y=3)
+    cars = [car]
+    step_counter = 1
+
+    with patch.object(car, 'move_forward') as mock_move_forward:
+        CarSimulation.execute_car_command(field, car, 'F', cars, step_counter)
+
+    mock_move_forward.assert_called_once()
+
+def test_execute_car_command_turn_left():
+    field = Field(10,10)
+    car = MockCar(name="Car1", direction="N", pos_x=3, pos_y=3)
+    cars = [car]
+    step_counter = 1
+
+    with patch.object(car, 'turn_left') as mock_turn_left:
+        CarSimulation.execute_car_command(field, car, 'L', cars, step_counter)
+
+    mock_turn_left.assert_called_once()
