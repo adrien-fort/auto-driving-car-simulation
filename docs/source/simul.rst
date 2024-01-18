@@ -8,7 +8,7 @@ Simulation Class
 
 .. class:: Simulation
 
-   The base class for simulations provides a method to check if a given position is within the boundaries of the field.
+   The base class for simulations, it provides a single method to check if a given position is within the boundaries of the field as this is likely going to be a common need in all types of simulations.
 
 CarSimulation Class
 -------------------
@@ -30,11 +30,17 @@ Module Usage
 
 This module provides a framework for simulating car movements. Users can use the `run_simul` function to execute the simulation by providing a field object and an array containing cars.
 
+Dependencies
+------------
+
+- display.py
+
+
 Example
 -------
 
 .. code-block:: python
-   
+
    import logging
    from src.display import CarDisplay
    from simul import CarSimulation, Simulation, run_simul

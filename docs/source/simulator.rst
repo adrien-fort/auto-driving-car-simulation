@@ -1,7 +1,5 @@
 .. highlight:: python
 
-.. simulator:
-
 ================
 Simulator Module
 ================
@@ -22,8 +20,3 @@ Dependencies
 - field.py
 - car.py
 - simul.py
-
-.. automodule:: src.Simulator
-   :members:
-   :undoc-members:
-   :show-inheritance:

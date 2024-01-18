@@ -11,7 +11,7 @@ Vehicle Class
 
 .. class:: Vehicle
 
-      The `Vehicle` class is a generic class representing a vehicle. It has methods for moving forward, turning left, and turning right.
+      The `Vehicle` class is a generic class representing a vehicle. It mostly holds attributes that would be common to all vehicules and leave the  methods for moving forward, turning left, and turning right to the subclasses.
 
 Car Class
 --------------
@@ -42,6 +42,12 @@ Functions
 .. function:: car_creation
 
    Creates a new car instance based on user inputs from above functions.
+
+Dependencies
+------------
+
+- display.py
+
 
 Usage
 --------
