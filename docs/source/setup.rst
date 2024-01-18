@@ -1,12 +1,12 @@
 Setup Module
 =================
 
-The `setup` module provides a script for configuring logging in the Auto Driving Car Simulation.
+The `setup` module provides a script for configuring logging in the Auto Driving Car Simulation. This is currently a very basic functionality but this module could be used later on for other technical functionalities (OpenTelemetry, API, ...).
 
 Functions
 ---------------------
 
-.. autofunction:: configure_logging
+.. function:: configure_logging
 
    Configures logging for the simulation.
 

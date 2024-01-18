@@ -5,13 +5,15 @@ Welcome to auto-driving-car-simulation's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   car
+   assumptions
+   simulator
+   setup
    display
    field
-   setup
+   car
    simul
-   simulator
-
+   tests
+   future
 
 Indices and tables
 ==================

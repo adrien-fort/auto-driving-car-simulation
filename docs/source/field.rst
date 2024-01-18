@@ -1,19 +1,18 @@
 Field Module
 =============
 
-The `field` module provides functionality for creating and managing simulation fields.
+The `field` module provides functionality for creating and managing simulation fields. This is currently very basic but field could in the future contain more information such as obastacles (trees, walls, ...).
 
 Field Class
 ------------
 
-.. autoclass:: Field
-   :members:
+.. class:: Field
 
    Field class represents a simulation field with a given width and height.
 
-   .. automethod:: __init__
+   .. method:: __init__
 
-   .. automethod:: field_creation
+   .. method:: field_creation
 
    .. note::
       The `field_creation` method prompts the user to input the width and height of the simulation field and validates the input.

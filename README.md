@@ -12,6 +12,7 @@ The code is currently designed around several assumptions:
     -Based on the requirement, cars that reach the edge of the field are still active but stop moving forward (over the edge) and might continue to move after being told to turn.
     -Cars involved in a collision do not disappear until the end of the simulation, thus more cars could collide at the same coordinates in later steps.
     -Fields with 0 width or height are not allowed.
+    -There is no point in running a simulation without car so the code will prompt user to start again
 
 
 # BoW/Improvements
@@ -31,7 +32,7 @@ As this is a very basic application which doesn't even have API, no advanced tel
 
 # Documentation
 
-Documentation was generated using Sphynx and is available in the docs directory.
+Documentation was generated using Sphinx and is available in the docs directory. Simply run ".\make.bat html" (windows) or "make html" (linux) to regeneate the documentation.
 
 # Pipeline
 

@@ -1,3 +1,8 @@
+.. highlight:: python
+
+.. simulator:
+
+================
 Simulator Module
 ================
 
@@ -7,7 +12,7 @@ Usage
 -----
 
 1. Start the application.
-2. Choose to create a new car or run the simulation.
+2. Choose to create a new car or run the simulation through user input.
 3. After the simulation, manage additional options such as starting over or exiting.
 
 Dependencies

@@ -1,46 +1,47 @@
-Car Module Documentation
-===========
+.. highlight:: python
+
+==========
+Car Module
+==========
 
 The `car` module provides classes and functions for creating and managing cars in the Auto Driving Car Simulation.
 
 Vehicle Class
 ---------------
 
-.. autoclass:: Vehicle
-   :members:
+.. class:: Vehicle
 
-   The `Vehicle` class is a generic class representing a vehicle. It has methods for moving forward, turning left, and turning right.
+      The `Vehicle` class is a generic class representing a vehicle. It has methods for moving forward, turning left, and turning right.
 
 Car Class
 --------------
 
-.. autoclass:: Car
-   :members:
+.. class:: Car
 
-   The `Car` class is a subclass of `Vehicle` with specific implementations for moving forward, turning left, and turning right.
+      The `Car` class is a subclass of `Vehicle` with specific implementations for moving forward, turning left, and turning right.
 
 Functions
 -------------
 
-.. autofunction:: is_valid_integer
+.. function:: is_valid_integer
 
    Checks if a given value is a valid integer.
 
-.. autofunction:: car_naming
+.. function:: car_naming
 
    Prompts the user to enter a unique name for a car.
 
-.. autofunction:: car_position
+.. function:: car_position
 
    Prompts the user to enter the initial position and direction of a car.
 
-.. autofunction:: car_commands
+.. function:: car_commands
 
    Prompts the user to enter commands for the car to follow in simulation.
 
-.. autofunction:: car_creation
+.. function:: car_creation
 
-   Creates a new car instance based on user inputs.
+   Creates a new car instance based on user inputs from above functions.
 
 Usage
 --------
