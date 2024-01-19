@@ -24,7 +24,7 @@ Below is a list of improvements that could be made but weren't in the initial re
 
 # Tests
 
-Unit tests have been written in pytest and thus pytest should be used to run them, they are all stored in the "tests" directory and follow usual naming convention thus can all be run at once if the "pytest" command is used.
+Unit tests have been written in pytest and thus pytest should be used to run them, they are all stored in the "tests" directory and follow usual naming convention thus can all be run at once if the "pytest" command is used. Note that the test_simulator.py is the one used for end to end tests (22 cases tested currently).
 
 # Observability
 
