@@ -1,4 +1,6 @@
 import logging
+import json
+from pprint import pprint
 from src.display import CarDisplay
 
 #Creating a parent class for simulations with methods that are likely to be re-usable in all sub-classes
@@ -23,22 +25,28 @@ class CarSimulation(Simulation):
             if other_car != car and other_car.pos_x == car.pos_x and other_car.pos_y == car.pos_y:
                 return other_car.name
         
-    def update_collided_cars(cars, colliding_car):
+    def update_collided_cars(cars, colliding_car, step_counter):
         # Update the other car involved in the collision to receive details
         for other_car in cars:
             if other_car != colliding_car and other_car.pos_x == colliding_car.pos_x and other_car.pos_y == colliding_car.pos_y:
                 other_car.status = "collided"
-                
-                # Check if collision_details is empty
-                if colliding_car.collision_details:
-                    last_step = colliding_car.collision_details[-1]['step']
-                else:
-                    last_step = 0
-                
-                other_car.collision_details.append({
+                colliding_car.status = "collided"
+
+                col_details_other = {
+                    'with_car': other_car.name,
+                    'step': step_counter
+                }
+
+                col_details_colliding = {
                     'with_car': colliding_car.name,
-                    'step': last_step
-                })
+                    'step': step_counter
+                }
+                if col_details_other not in colliding_car.collision_details:
+                    colliding_car.collision_details.append(col_details_other)
+
+                if col_details_colliding not in other_car.collision_details:
+                    other_car.collision_details.append(col_details_colliding)
+
 
     def execute_car_command(field, car, command, cars, step_counter):
         # Check if car isn't collided and then triggers the function associated with the command 
@@ -56,12 +64,7 @@ class CarSimulation(Simulation):
                     car.move_forward()
                 #Once the move is done we are checking if the move has caused a collision
                 if CarSimulation.is_car_collision(cars, car, car.pos_x, car.pos_y):
-                    car.status = "collided"
-                    car.collision_details.append({
-                        'with_car': CarSimulation.get_collided_car_name(cars, car),
-                        'step': step_counter
-                    })
-                    CarSimulation.update_collided_cars(cars, car)
+                    CarSimulation.update_collided_cars(cars, car, step_counter)
             elif command == 'L':
                 car.turn_left()
             elif command == 'R':
@@ -95,6 +98,7 @@ def run_simul(field, cars):
                 break
 
             step_counter += 1
+            
         
         logging.info(f"The simulation has completed successfully.")
         CarDisplay.post_sim_display(cars)
