@@ -36,21 +36,20 @@ def test_get_collided_car_name():
 
 # Testing the function which updates the collided car status and collision details
 def test_update_collided_cars():
-    car1 = Car("Car1", 0, 0, 'N', [])
-    car2 = Car("Car2", 0, 0, 'N', [])
-    car3 = Car("Car3", 2, 2, 'S', [])
-    car4 = Car("Car4", 2, 2, 'S', [])
-    cars = [car1, car2, car3, car4]
+    car1 = Car("Car1", 2, 3, 'N', [])
+    car2 = Car("Car2", 2, 3, 'S', [])
+    car3 = Car("Car3", 2, 3, 'W', [])
+    cars = [car1, car2, car3]
 
-    CarSimulation.update_collided_cars(cars, car1)
+    CarSimulation.update_collided_cars(cars, car2, 0)
 
     assert car2.status == "collided"
-    assert car2.collision_details == [{'with_car': 'Car1', 'step': 0}]
+    assert car2.collision_details == [{'with_car': 'Car1', 'step': 0},{'with_car': 'Car3', 'step': 0}]
 
-    CarSimulation.update_collided_cars(cars, car3)
+    CarSimulation.update_collided_cars(cars, car3, 0)
 
-    assert car4.status == "collided"
-    assert car4.collision_details == [{'with_car': 'Car3', 'step': 0}]
+    assert car3.status == "collided"
+    assert car3.collision_details == [{'with_car': 'Car2', 'step': 0},{'with_car': 'Car1', 'step': 0}]
 
 # Testing the function which ensures car is still in boundary of the field
 def test_is_within_boundaries(field):

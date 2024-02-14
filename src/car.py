@@ -19,6 +19,9 @@ class Vehicle:
     def move_forward(self):
         raise NotImplementedError("Subclasses must implement the move_forward method.")
 
+    def move_backward(self):
+        raise NotImplementedError("Subclasses must implement the move_backward method.")
+
     def turn_left(self):
         raise NotImplementedError("Subclasses must implement the turn_left method.")
 
@@ -27,15 +30,25 @@ class Vehicle:
     
 # Defining the Car subclass with methods specific to class (i.e. a future vehicule addition, say motorbike, could have a move_forward method which moves 'faster' +/- 2)
 class Car(Vehicle):
-    def move_forward(self):
+
+    def move(self, dir):
+        delta = 1 if dir == "F" else - 1
         if self.direction == 'N':
-            self.pos_y = self.pos_y + 1
+            self.pos_y = self.pos_y + delta
         elif self.direction == 'S':
-            self.pos_y = self.pos_y - 1
+            self.pos_y = self.pos_y - delta
         elif self.direction == 'E':
-            self.pos_x = self.pos_x + 1
+            self.pos_x = self.pos_x + delta
         elif self.direction == 'W':
-            self.pos_x = self.pos_x - 1
+            self.pos_x = self.pos_x - delta
+
+
+    def move_forward(self):
+        self.move("F")
+
+
+    def move_backward(self):
+        self.move("B")
 
     def turn_left(self):
         # Define the mapping for left turns and update the car's direction

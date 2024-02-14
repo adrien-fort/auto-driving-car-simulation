@@ -37,12 +37,25 @@ def test_vehicle_move_forward():
     with pytest.raises(NotImplementedError):
         vehicle.move_forward()
 
+# Testing the move backward method from the vehicule parent class (this method is to be defined in subclass)
+def test_vehicle_move_backward():
+    vehicle = Vehicle("TestVehicle", 0, 0, 'N', 'B')
+    with pytest.raises(NotImplementedError):
+        vehicle.move_backward()
+
 # Testing the move forward method from the car subclass
 def test_car_move_forward():
     car = Car("TestCar", 1, 2, 'S', 'FRFL')
     car.move_forward()
     assert car.pos_x == 1
     assert car.pos_y == 1
+
+# Testing the move Backward method from the car subclass
+def test_car_move_backward():
+    car = Car("TestCar", 1, 2, 'S', 'B')
+    car.move_backward()
+    assert car.pos_x == 1
+    assert car.pos_y == 3
 
 # Testing the turn left method from vehicul parent class (this method is to be defined in subclass)
 def test_vehicle_turn_left():
