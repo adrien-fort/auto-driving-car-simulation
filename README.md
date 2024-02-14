@@ -32,7 +32,7 @@ As this is a very basic application which doesn't even have API, no advanced tel
 
 # Documentation
 
-Documentation was generated using Sphinx and is available in the docs directory. Simply run ".\make.bat html" (windows) or "make html" (linux) to regeneate the documentation.
+Documentation was generated using Sphinx and is available in the docs directory, the rst files are in the source folder and the generated html are in build\html (open index to start). Simply run ".\make.bat html" (windows) or "make html" (linux) to regeneate the documentation.
 
 # Pipeline
 
