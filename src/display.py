@@ -2,7 +2,7 @@ import logging
 
 # Display requirements could change depending on vehicule thus creating a specific class with methods to display car information
 class CarDisplay:
-    def pre_sim_display(cars):
+    def pre_sim_display(self, cars):
         # While the current logic of the code prevents the array from being empty when this method is called adding a check if usage changes in future
         if not cars:
             print("\nThere is currently no car saved.")
@@ -11,7 +11,7 @@ class CarDisplay:
             for car in cars:
                 print(f"- {car.name}, ({car.pos_x}, {car.pos_y}) {car.direction}, {car.commands}")
 
-    def post_sim_display(cars):
+    def post_sim_display(self, cars):
         # While the current logic of the code prevents the array from being empty when this method is called adding a check if usage changes in future
         if not cars:
             print("\nThere is currently no car saved.")

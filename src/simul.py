@@ -5,13 +5,13 @@ from src.display import CarDisplay
 
 #Creating a parent class for simulations with methods that are likely to be re-usable in all sub-classes
 class Simulation:
-    def is_within_boundaries(field, pos_x, pos_y):
+    def is_within_boundaries(self, field, pos_x, pos_y):
         # Returns true if coordinate provided are in boundary of the field
         return 0 <= pos_x < field.width and 0 <= pos_y < field.height
 
 # Creating a specific simulation class for car as simulation with other vehicules could require different behaviours
 class CarSimulation(Simulation):
-    def is_car_collision(cars, car, pos_x, pos_y):
+    def is_car_collision(self, cars, car, pos_x, pos_y):
         # Check if there is another car at the specified position
         for other_car in cars:
             if other_car != car and other_car.pos_x == pos_x and other_car.pos_y == pos_y:
@@ -19,13 +19,13 @@ class CarSimulation(Simulation):
                 return True
         return False
 
-    def get_collided_car_name(cars, car):
+    def get_collided_car_name(self, cars, car):
         # Simple function to fetch the other car name involved in the collision
         for other_car in cars:
             if other_car != car and other_car.pos_x == car.pos_x and other_car.pos_y == car.pos_y:
                 return other_car.name
         
-    def update_collided_cars(cars, colliding_car, step_counter):
+    def update_collided_cars(self, cars, colliding_car, step_counter):
         # Update the other car involved in the collision to receive details
         for other_car in cars:
             if other_car != colliding_car and other_car.pos_x == colliding_car.pos_x and other_car.pos_y == colliding_car.pos_y:
@@ -48,7 +48,7 @@ class CarSimulation(Simulation):
                     other_car.collision_details.append(col_details_colliding)
 
 
-    def execute_car_command(field, car, command, cars, step_counter):
+    def execute_car_command(self, field, car, command, cars, step_counter):
         # Check if car isn't collided and then triggers the function associated with the command 
         if car.status == "running":
             if command == 'F':
@@ -77,7 +77,7 @@ class CarSimulation(Simulation):
 def run_simul(field, cars):
     if not cars:
         print("You are trying to run a simulation without any car saved, please start over!")
-        logging.warning(f"User was trying to run a simulation without any car saved and was prompted to start over.")
+        logging.warning("User was trying to run a simulation without any car saved and was prompted to start over.")
     else:
         CarDisplay.pre_sim_display(cars)
         num_commands = max(len(car.commands) for car in cars)
@@ -100,5 +100,5 @@ def run_simul(field, cars):
             step_counter += 1
             
         
-        logging.info(f"The simulation has completed successfully.")
+        logging.info("The simulation has completed successfully.")
         CarDisplay.post_sim_display(cars)

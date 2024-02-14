@@ -58,7 +58,5 @@ def main():
             else:
                 print("Invalid choice, please enter 1 or 2!")
                 logging.warning("User made an invalid choice and was prompted to retry")
-    
-    return
 
 main()

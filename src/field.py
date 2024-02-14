@@ -5,7 +5,7 @@ class Field:
         self.width = width
         self.height = height
 
-    def field_creation():
+    def field_creation(self):
         while True:
             try:
                 user_input = input("Please enter the width and height of the simulation field in x y format:\n")
