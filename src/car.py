@@ -94,17 +94,8 @@ def car_position(field, cars, name):
             if len(input_parts) != 3:
                 raise ValueError("Please enter information in the requested format.")
 
-            # Convert the first two input parts to integers and making direction uppercase (I could have chosen to reject lowercase inputs but felt this would make a nicer user experience)
-            if is_valid_integer(input_parts[0]):
-                pos_x = int(input_parts[0])
-            else:
-                raise ValueError("Your x is not a number.")
-            
-            if is_valid_integer(input_parts[1]):
-                pos_y = int(input_parts[1])
-            else:
-                raise ValueError("Your y is not a number.")
-
+            # Convert the first two input parts to integers and making direction uppercase
+            pos_x, pos_y = map(int, input_parts[:2])
             direction = input_parts[2].upper()
 
             # Check if both numbers are positive as 
@@ -163,8 +154,11 @@ def car_creation(field, cars):
         cars.append(new_car)
         logging.info(f"User successfully created a new car: {new_car}")
 
+        # Create an instance of CarDisplay
+        car_display = CarDisplay()
+
         # Displaying content of Cars array before exiting
-        CarDisplay.pre_sim_display(cars)
+        car_display.pre_sim_display(cars)
         return cars
     except ValueError as e:
             # Handle the error (e.g., print a message)

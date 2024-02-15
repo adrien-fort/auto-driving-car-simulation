@@ -117,9 +117,12 @@ def test_car_creation_with_commands():
     assert car.direction == 'N'
     assert car.commands == "FFLFFLFF"
 
+    # Create an instance of CarDisplay
+    car_display = CarDisplay()
+
     # Display the cars to see the result
     with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
-        CarDisplay.pre_sim_display(result)
+        car_display.pre_sim_display(result)
         output = mock_stdout.getvalue()
 
     # Check if the display output is as expected

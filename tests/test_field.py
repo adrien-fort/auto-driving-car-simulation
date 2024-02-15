@@ -9,6 +9,7 @@ from unittest.mock import patch
 ])
 def test_field_creation(input_values, expected_result, monkeypatch):
     monkeypatch.setattr('builtins.input', lambda _: input_values.pop(0))
-    result = Field.field_creation()
-    assert result.width == expected_result[0]
-    assert result.height == expected_result[1]
+    field_instance = Field(None, None)
+    new_field_instance = field_instance.field_creation()
+    assert new_field_instance.width == expected_result[0]
+    assert new_field_instance.height == expected_result[1]

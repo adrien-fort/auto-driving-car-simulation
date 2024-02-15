@@ -50,28 +50,31 @@ class CarSimulation(Simulation):
 
     def execute_car_command(self, field, car, command, cars, step_counter):
         # Check if car isn't collided and then triggers the function associated with the command 
-        if car.status == "running":
-            if command == 'F':
-                # Depending on direction, checking if the upcoming move is out of the field boundary before calling the move_forward method (if out of bound the move doesn't happen)
-                # In a future iteration if we want the self-driving car/vehicule to avoid collision this would likely be handled here by adding more conditions 
-                if car.direction == 'N' and CarSimulation.is_within_boundaries(field, car.pos_x, car.pos_y + 1):
-                    car.move_forward()
-                elif car.direction == 'S' and CarSimulation.is_within_boundaries(field, car.pos_x, car.pos_y - 1):
-                    car.move_forward()
-                elif car.direction == 'E'and CarSimulation.is_within_boundaries(field, car.pos_x + 1, car.pos_y):
-                    car.move_forward()
-                elif car.direction == 'W' and CarSimulation.is_within_boundaries(field, car.pos_x - 1, car.pos_y) :
-                    car.move_forward()
-                #Once the move is done we are checking if the move has caused a collision
-                if CarSimulation.is_car_collision(cars, car, car.pos_x, car.pos_y):
-                    CarSimulation.update_collided_cars(cars, car, step_counter)
-            elif command == 'L':
-                car.turn_left()
-            elif command == 'R':
-                car.turn_right()
-            else:
-                # This shouldn't happen as we have validition when commands are inserted but putting a check nonetheless
-                print(f"Unknown command '{command}' for car '{car.name}'")
+        if car.status != "running":
+            return
+        
+        def move_within_boundaries(dx, dy):
+            if CarSimulation.is_within_boundaries(field, car.pos_x + dx, car.pos_y + dy):
+                car.move_forward()
+
+        # Depending on direction, checking if the upcoming move is out of the field boundary before calling the move_forward method (if out of bound the move doesn't happen)
+        # In a future iteration if we want the self-driving car/vehicule to avoid collision this would likely be handled here by adding more conditions 
+        if command == 'F':
+            if car.direction == 'N': move_within_boundaries(0, 1)
+            elif car.direction == 'S': move_within_boundaries(0, -1)
+            elif car.direction == 'E': move_within_boundaries(1, 0)
+            elif car.direction == 'W': move_within_boundaries(-1, 0)
+
+        #Once the move is done we are checking if the move has caused a collision
+            if CarSimulation.is_car_collision(cars, car, car.pos_x, car.pos_y):
+                CarSimulation.update_collided_cars(cars, car, step_counter)
+        elif command == 'L':
+            car.turn_left()
+        elif command == 'R':
+            car.turn_right()
+        else:
+            # This shouldn't happen as we have validition when commands are inserted but putting a check nonetheless
+            print(f"Unknown command '{command}' for car '{car.name}'")
 
 # This function is really specific to the car run currently, if other simulations are added this would require some refactoring
 def run_simul(field, cars):
