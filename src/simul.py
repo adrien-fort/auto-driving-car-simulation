@@ -52,9 +52,9 @@ class CarSimulation(Simulation):
         # Check if car isn't collided and then triggers the function associated with the command 
         if car.status != "running":
             return
-        
+        car_simulation = CarSimulation()
         def move_within_boundaries(dx, dy):
-            if CarSimulation.is_within_boundaries(field, car.pos_x + dx, car.pos_y + dy):
+            if car_simulation.is_within_boundaries(field, car.pos_x + dx, car.pos_y + dy):
                 car.move_forward()
 
         # Depending on direction, checking if the upcoming move is out of the field boundary before calling the move_forward method (if out of bound the move doesn't happen)
@@ -66,8 +66,8 @@ class CarSimulation(Simulation):
             elif car.direction == 'W': move_within_boundaries(-1, 0)
 
         #Once the move is done we are checking if the move has caused a collision
-            if CarSimulation.is_car_collision(cars, car, car.pos_x, car.pos_y):
-                CarSimulation.update_collided_cars(cars, car, step_counter)
+            if car_simulation.is_car_collision(cars, car, car.pos_x, car.pos_y):
+                car_simulation.update_collided_cars(cars, car, step_counter)
         elif command == 'L':
             car.turn_left()
         elif command == 'R':
@@ -82,7 +82,9 @@ def run_simul(field, cars):
         print("You are trying to run a simulation without any car saved, please start over!")
         logging.warning("User was trying to run a simulation without any car saved and was prompted to start over.")
     else:
-        CarDisplay.pre_sim_display(cars)
+        car_display = CarDisplay()
+        car_simulation = CarSimulation()
+        car_display.pre_sim_display(cars)
         num_commands = max(len(car.commands) for car in cars)
         step_counter = 0
 
@@ -93,7 +95,7 @@ def run_simul(field, cars):
             for car in cars:
                 if car.status == "running" and step_counter < len(car.commands):
                     logging.info(f"Executing step {step_counter} of the simulation for {car.name}.")
-                    CarSimulation.execute_car_command(field, car, car.commands[step_counter], cars, step_counter)
+                    car_simulation.execute_car_command(field, car, car.commands[step_counter], cars, step_counter)
                     if car.status == "running":
                         all_cars_collided = False
 
@@ -104,4 +106,4 @@ def run_simul(field, cars):
             
         
         logging.info("The simulation has completed successfully.")
-        CarDisplay.post_sim_display(cars)
+        car_display.post_sim_display(cars)

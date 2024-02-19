@@ -21,7 +21,8 @@ def main():
         print("Welcome to Auto Driving Car Simulation!", end='\n')
         logging.info("New instance of the app starting...")
         # Get user to create the field
-        field = Field.field_creation()
+        field = Field(None, None)
+        simulation_field = field.field_creation()
         cars = []
 
         # Note the below loop could be improved in the future so that in first iteration it doesn't offer to run simulation with no car, this was not in the initial requirement though
@@ -31,12 +32,12 @@ def main():
             #calling the car creation, not adding a break to allow repetition
             if option == '1':
                 logging.info("User has opted to create a new car.")
-                car_creation(field, cars)
+                car_creation(simulation_field, cars)
 
             #calling the simulation and breaking out of the nested loop, as per requirement a different prompt is expected after simulation has run
             elif option == '2':
                 logging.info("User has opted to run the simulation.")
-                run_simul(field, cars)
+                run_simul(simulation_field, cars)
 
                 break
             else:

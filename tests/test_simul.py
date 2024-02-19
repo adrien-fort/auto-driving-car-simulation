@@ -20,8 +20,9 @@ def test_is_car_collision():
     car3 = Car("Car3", 2, 2, 'S', [])
     cars = [car1, car2, car3]
 
-    assert CarSimulation.is_car_collision(cars, car1, 0, 1)
-    assert CarSimulation.is_car_collision(cars, car1, 2, 2)
+    car_simulation = CarSimulation()
+    assert car_simulation.is_car_collision(cars, car1, 0, 1)
+    assert car_simulation.is_car_collision(cars, car1, 2, 2)
 
 # Testing the function that goes to fetch the collided car name
 def test_get_collided_car_name():
@@ -30,9 +31,10 @@ def test_get_collided_car_name():
     car3 = Car("Car3", 2, 2, 'S', [])
     cars = [car1, car2, car3]
 
-    assert CarSimulation.get_collided_car_name(cars, car1) == "Car2"
-    assert CarSimulation.get_collided_car_name(cars, car2) == "Car1"
-    assert CarSimulation.get_collided_car_name(cars, car3) is None
+    car_simulation = CarSimulation()
+    assert car_simulation.get_collided_car_name(cars, car1) == "Car2"
+    assert car_simulation.get_collided_car_name(cars, car2) == "Car1"
+    assert car_simulation.get_collided_car_name(cars, car3) is None
 
 # Testing the function which updates the collided car status and collision details
 def test_update_collided_cars():
@@ -41,20 +43,22 @@ def test_update_collided_cars():
     car3 = Car("Car3", 2, 3, 'W', [])
     cars = [car1, car2, car3]
 
-    CarSimulation.update_collided_cars(cars, car2, 0)
+    car_simulation = CarSimulation()
+    car_simulation.update_collided_cars(cars, car2, 0)
 
     assert car2.status == "collided"
     assert car2.collision_details == [{'with_car': 'Car1', 'step': 0},{'with_car': 'Car3', 'step': 0}]
 
-    CarSimulation.update_collided_cars(cars, car3, 0)
+    car_simulation.update_collided_cars(cars, car3, 0)
 
     assert car3.status == "collided"
     assert car3.collision_details == [{'with_car': 'Car2', 'step': 0},{'with_car': 'Car1', 'step': 0}]
 
 # Testing the function which ensures car is still in boundary of the field
 def test_is_within_boundaries(field):
-    assert Simulation.is_within_boundaries(field, 2, 3)
-    assert not Simulation.is_within_boundaries(field, 6, 3)
+    simulation = Simulation()
+    assert simulation.is_within_boundaries(field, 2, 3)
+    assert not simulation.is_within_boundaries(field, 6, 3)
 
 # Testing the execute command which orchestrate all the checks and actions by forcing a collision with car2
 def test_execute_command(capsys):
@@ -66,15 +70,16 @@ def test_execute_command(capsys):
     captured_output = StringIO()
     sys.stdout = captured_output
 
-    CarSimulation.execute_car_command(field, car, 'F', cars, 0)
+    car_simulation = CarSimulation()
+    car_simulation.execute_car_command(field, car, 'F', cars, 0)
     assert car.pos_y == 3
     assert car.status == "running"
     
-    CarSimulation.execute_car_command(field, car, 'L', cars, 1)
+    car_simulation.execute_car_command(field, car, 'L', cars, 1)
     assert car.direction == 'W'
     assert car.status == "running"
 
-    CarSimulation.execute_car_command(field, car, 'F', cars, 2)
+    car_simulation.execute_car_command(field, car, 'F', cars, 2)
     assert car.status == "collided"
 
 # Testing an end to end run of the simulation with two cars and a dummy field, no collision case
@@ -165,8 +170,9 @@ def test_execute_car_command_move_forward_success():
     cars = [car]
     step_counter = 1
 
+    car_simulation = CarSimulation()
     with patch.object(car, 'move_forward') as mock_move_forward:
-        CarSimulation.execute_car_command(field, car, 'F', cars, step_counter)
+        car_simulation.execute_car_command(field, car, 'F', cars, step_counter)
 
     mock_move_forward.assert_called_once()
 
@@ -176,7 +182,8 @@ def test_execute_car_command_turn_left():
     cars = [car]
     step_counter = 1
 
+    car_simulation = CarSimulation()
     with patch.object(car, 'turn_left') as mock_turn_left:
-        CarSimulation.execute_car_command(field, car, 'L', cars, step_counter)
+        car_simulation.execute_car_command(field, car, 'L', cars, step_counter)
 
     mock_turn_left.assert_called_once()

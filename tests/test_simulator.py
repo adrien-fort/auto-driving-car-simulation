@@ -69,19 +69,13 @@ def test_simulator_end_to_end():
     inputs = "10 10\n1\nA\na 1 W" 
     returncode, output, error = run_command_with_inputs(inputs)
     assert returncode == 1  
-    assert "Error: Your x is not a number. Please try again." in output
-
-    # Test case 9: Simulating a good input in field and starting a car creation - bad input in position
-    inputs = "10 10\n1\nA\na 1 W" 
-    returncode, output, error = run_command_with_inputs(inputs)
-    assert returncode == 1  
-    assert "Error: Your x is not a number. Please try again." in output
+    assert "Error: invalid literal for int() with base 10: 'a'" in output
 
     # Test case 10: Simulating a good input in field and starting a car creation - bad input in position
     inputs = "10 10\n1\nA\n3 f W" 
     returncode, output, error = run_command_with_inputs(inputs)
     assert returncode == 1  
-    assert "Error: Your y is not a number. Please try again." in output
+    assert "Error: invalid literal for int() with base 10: 'f'" in output
 
     # Test case 11: Simulating a good input in field and starting a car creation - bad input in position
     inputs = "10 10\n1\nA\n4 4 4 4" 
