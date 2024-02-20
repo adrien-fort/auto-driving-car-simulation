@@ -81,29 +81,27 @@ def run_simul(field, cars):
     if not cars:
         print("You are trying to run a simulation without any car saved, please start over!")
         logging.warning("User was trying to run a simulation without any car saved and was prompted to start over.")
-    else:
-        car_display = CarDisplay()
-        car_simulation = CarSimulation()
-        car_display.pre_sim_display(cars)
-        num_commands = max(len(car.commands) for car in cars)
-        step_counter = 0
+        return
 
-        while True:
-            # The all car collided flag is set to True as the loop will update it to false as long as one car at least is in running status thus not allowing the loop to break until all cars have collided or all commands are run
-            all_cars_collided = True
+    car_display = CarDisplay()
+    car_simulation = CarSimulation()
+    car_display.pre_sim_display(cars)
 
-            for car in cars:
-                if car.status == "running" and step_counter < len(car.commands):
-                    logging.info(f"Executing step {step_counter} of the simulation for {car.name}.")
-                    car_simulation.execute_car_command(field, car, car.commands[step_counter], cars, step_counter)
-                    if car.status == "running":
-                        all_cars_collided = False
+    num_commands = max(len(car.commands) for car in cars)
+    step_counter = 0
 
-            if all_cars_collided or step_counter >= num_commands - 1:
-                break
+    while step_counter < num_commands:
+        all_cars_collided = all(car.status != "running" or step_counter >= len(car.commands) for car in cars)
 
-            step_counter += 1
-            
-        
-        logging.info("The simulation has completed successfully.")
-        car_display.post_sim_display(cars)
+        if all_cars_collided:
+            break
+
+        for car in cars:
+            if car.status == "running" and step_counter < len(car.commands):
+                logging.info(f"Executing step {step_counter} of the simulation for {car.name}.")
+                car_simulation.execute_car_command(field, car, car.commands[step_counter], cars, step_counter)
+
+        step_counter += 1
+
+    logging.info("The simulation has completed successfully.")
+    car_display.post_sim_display(cars)

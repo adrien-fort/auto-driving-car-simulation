@@ -62,11 +62,7 @@ class Car(Vehicle):
 
 # This function simply validates if the input is an Integer, I had to create a separate function as checking directly in the other function caused the tests to fail.
 def is_valid_integer(value):
-    try:
-        int_value = int(value)
-        return True
-    except ValueError:
-        return False
+    return value.isdigit()
 
 def car_naming(cars):
     while True:
