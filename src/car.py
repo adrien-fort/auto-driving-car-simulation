@@ -42,10 +42,8 @@ class Car(Vehicle):
         elif self.direction == 'W':
             self.pos_x = self.pos_x - delta
 
-
     def move_forward(self):
         self.move("F")
-
 
     def move_backward(self):
         self.move("B")
@@ -123,7 +121,7 @@ def car_commands(name):
         try:
             commands = input(f"Please enter the commands for car '{name}':")
             # Define a regular expression pattern allowing only F L R inputs, this could be changed to add idle/parked or even U turn commands
-            pattern = re.compile(r'^[FLR]+$')
+            pattern = re.compile(r'^[FLRB]+$')
 
             if pattern.match(commands):
                 break

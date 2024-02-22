@@ -60,10 +60,15 @@ class CarSimulation(Simulation):
         # Depending on direction, checking if the upcoming move is out of the field boundary before calling the move_forward method (if out of bound the move doesn't happen)
         # In a future iteration if we want the self-driving car/vehicule to avoid collision this would likely be handled here by adding more conditions 
         if command == 'F':
-            if car.direction == 'N': move_within_boundaries(0, 1)
-            elif car.direction == 'S': move_within_boundaries(0, -1)
-            elif car.direction == 'E': move_within_boundaries(1, 0)
-            elif car.direction == 'W': move_within_boundaries(-1, 0)
+            delta = 1
+        elif command == 'B':
+            delta = -1
+
+        if command in {'F', 'B'}:
+            if car.direction == 'N' or car.direction == 'S':
+                move_within_boundaries(0, delta)
+            elif car.direction == 'E' or car.direction == 'W':
+                move_within_boundaries(delta, 0)
 
         #Once the move is done we are checking if the move has caused a collision
             if car_simulation.is_car_collision(cars, car, car.pos_x, car.pos_y):
