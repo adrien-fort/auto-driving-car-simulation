@@ -120,7 +120,7 @@ def car_commands(name):
     while True:
         try:
             commands = input(f"Please enter the commands for car '{name}':")
-            # Define a regular expression pattern allowing only F L R inputs, this could be changed to add idle/parked or even U turn commands
+            # Define a regular expression pattern allowing only F L R B inputs, this could be changed to add idle/parked or even U turn commands
             pattern = re.compile(r'^[FLRB]+$')
 
             if pattern.match(commands):

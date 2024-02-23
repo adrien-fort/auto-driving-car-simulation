@@ -1,20 +1,25 @@
+import os
 import subprocess
 import pytest
 
 # This is meant as the end to end test cases by running the main program through various input secenarios
-def run_command_with_inputs(inputs):
-    command = ['python', '..\src\Simulator.py'] 
+# Get the absolute path of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-    process = subprocess.Popen(
+# Construct the path to Simulator.py relative to the current script's directory
+simulator_path = os.path.join(current_dir, "..", "src", "Simulator.py")
+
+def run_command_with_inputs(inputs):
+    command = ['python', simulator_path]
+
+    process = subprocess.run(
         command,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        universal_newlines=True,
+        input=inputs,
+        text=True,
+        capture_output=True,
     )
 
-    output, error = process.communicate(input=inputs)
-    return process.returncode, output, error
+    return process.returncode, process.stdout, process.stderr
 
 def test_simulator_end_to_end():
     # Test case 1: Simulating an initial bad input in field - not integer
