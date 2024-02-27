@@ -47,15 +47,22 @@ class CarSimulation(Simulation):
                 if col_details_colliding not in other_car.collision_details:
                     other_car.collision_details.append(col_details_colliding)
 
+    def move_within_boundaries(self, car_simulation, car, field, dx, dy, command):
+        if car_simulation.is_within_boundaries(field, car.pos_x + dx, car.pos_y + dy):
+            if command == 'F':
+                car.move_forward()
+            elif command == 'B':
+                car.move_backward()
+            else:
+                # This shouldn't happen as we have validation when commands are inserted, but putting a check nonetheless
+                print(f"Unknown command '{command}' passed when trying to move car within boundary")
+
 
     def execute_car_command(self, field, car, command, cars, step_counter):
         # Check if car isn't collided and then triggers the function associated with the command 
         if car.status != "running":
             return
         car_simulation = CarSimulation()
-        def move_within_boundaries(dx, dy):
-            if car_simulation.is_within_boundaries(field, car.pos_x + dx, car.pos_y + dy):
-                car.move_forward()
 
         # Depending on direction, checking if the upcoming move is out of the field boundary before calling the move_forward method (if out of bound the move doesn't happen)
         # In a future iteration if we want the self-driving car/vehicule to avoid collision this would likely be handled here by adding more conditions 
@@ -65,10 +72,11 @@ class CarSimulation(Simulation):
             delta = -1
 
         if command in {'F', 'B'}:
-            if car.direction == 'N' or car.direction == 'S':
-                move_within_boundaries(0, delta)
-            elif car.direction == 'E' or car.direction == 'W':
-                move_within_boundaries(delta, 0)
+            if car.direction == 'N': car_simulation.move_within_boundaries(car_simulation, car, field, 0, delta, command)
+            elif car.direction == 'S': car_simulation.move_within_boundaries(car_simulation, car, field, 0, -delta, command)
+            elif car.direction == 'E': car_simulation.move_within_boundaries(car_simulation, car, field, delta, 0, command)
+            elif car.direction == 'W': car_simulation.move_within_boundaries(car_simulation, car, field, -delta, 0, command)
+
 
         #Once the move is done we are checking if the move has caused a collision
             if car_simulation.is_car_collision(cars, car, car.pos_x, car.pos_y):

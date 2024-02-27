@@ -156,6 +156,16 @@ class MockCar:
         elif self.direction == 'W':
             self.pos_x = self.pos_x - 1
 
+    def move_backward(self):
+        if self.direction == 'N':
+            self.pos_y = self.pos_y - 1
+        elif self.direction == 'S':
+            self.pos_y = self.pos_y + 1
+        elif self.direction == 'E':
+            self.pos_x = self.pos_x - 1
+        elif self.direction == 'W':
+            self.pos_x = self.pos_x + 1
+
     def turn_left(self):
         # Mock turn_left method
         pass
@@ -175,6 +185,18 @@ def test_execute_car_command_move_forward_success():
         car_simulation.execute_car_command(field, car, 'F', cars, step_counter)
 
     mock_move_forward.assert_called_once()
+
+def test_execute_car_command_move_backward_success():
+    field = Field(10,10)
+    car = MockCar(name="Car1", direction="N", pos_x=3, pos_y=3)
+    cars = [car]
+    step_counter = 1
+
+    car_simulation = CarSimulation()
+    with patch.object(car, 'move_backward') as mock_move_backward:
+        car_simulation.execute_car_command(field, car, 'B', cars, step_counter)
+
+    mock_move_backward.assert_called_once()
 
 def test_execute_car_command_turn_left():
     field = Field(10,10)

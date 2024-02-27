@@ -148,7 +148,13 @@ def test_simulator_end_to_end():
     assert returncode == 1  
     assert "Your current list of cars are:\n- A, (4, 4) E, FFFFFF\n- B, (8, 4) W, FFFF\n\nAfter simulation, the result is:\n- A, collides with B at (6,4) at step 2\n- B, collides with A at (6,4) at step 2" in output
 
-    # Test case 22: Three car simulation collision case with collision at different steps
+    # Test case 22: Two car simulation - collision case with backward direction
+    inputs = "10 10\n1\nA\n4 4 E\nFFFFFF\n1\nB\n8 4 E\nBBBBB\n2" 
+    returncode, output, _ = run_command_with_inputs(inputs)
+    assert returncode == 1  
+    assert "Your current list of cars are:\n- A, (4, 4) E, FFFFFF\n- B, (8, 4) E, BBBBB\n\nAfter simulation, the result is:\n- A, collides with B at (6,4) at step 2\n- B, collides with A at (6,4) at step 2" in output
+
+    # Test case 23: Three car simulation collision case with collision at different steps
     inputs = "10 10\n1\nA\n2 4 E\nFFFFFF\n1\nB\n6 4 W\nFFFF\n1\nC\n8 4 W\nFFFFFFF\n2" 
     returncode, output, _ = run_command_with_inputs(inputs)
     assert returncode == 1  

@@ -78,6 +78,26 @@ def car_naming(cars):
         
     return name
 
+def car_position_check(field, cars, pos_x, pos_y, direction):
+    # Check if both numbers are positive as 
+    if pos_x < 0 or pos_y < 0:
+        raise ValueError("Please enter positive coordinates.")
+
+    # Validation that position is within the field
+    if (pos_x >= field.width or pos_y >= field.height):
+        raise ValueError(f'Please enter position within the field of {field.width} x {field.height}, meaning the max numbers are {field.width-1} x {field.height-1} as the field start at 0 x 0.')
+
+    # Validation on the direction, this could be extended in the future to include diagonal directions, i.e. NE
+    if direction not in ['N', 'S', 'E', 'W']:
+        raise ValueError("Please enter a valid direction!")
+
+    # Validation that no other car already exists at that position
+    if any(car.pos_x == pos_x and car.pos_y == pos_y for car in cars):
+        raise ValueError("Another car already exists at this position. Please choose a different position.")
+    
+    return ValueError
+
+
 def car_position(field, cars, name):
     while True:
         try:
@@ -92,22 +112,8 @@ def car_position(field, cars, name):
             pos_x, pos_y = map(int, input_parts[:2])
             direction = input_parts[2].upper()
 
-            # Check if both numbers are positive as 
-            if pos_x < 0 or pos_y < 0:
-                raise ValueError("Please enter positive coordinates.")
-
-            # Validation that position is within the field
-            if (pos_x >= field.width or pos_y >= field.height):
-                raise ValueError(f'Please enter position within the field of {field.width} x {field.height}, meaning the max numbers are {field.width-1} x {field.height-1} as the field start at 0 x 0.')
-
-            # Validation on the direction, this could be extended in the future to include diagonal directions, i.e. NE
-            if direction not in ['N', 'S', 'E', 'W']:
-                raise ValueError("Please enter a valid direction!")
-
-            # Validation that no other car already exists at that position
-            if any(car.pos_x == pos_x and car.pos_y == pos_y for car in cars):
-                raise ValueError("Another car already exists at this position. Please choose a different position.")
-            
+            car_position_check(field, cars, pos_x, pos_y, direction)
+                 
             break
 
         except ValueError as e:
