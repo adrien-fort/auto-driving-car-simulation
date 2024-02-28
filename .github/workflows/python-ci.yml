@@ -28,10 +28,9 @@ jobs:
 
     steps:
       - name: SonarQube Scan
-        uses: sonarsource/sonarcloud-github-action@v1
-        with:
-          organization: 'adrien-fort'
-          token: ${{ secrets.SONARQUBE_TOKEN }}
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
 
   deployment:
     needs: sca
