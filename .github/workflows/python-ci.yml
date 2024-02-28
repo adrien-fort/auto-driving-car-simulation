@@ -22,7 +22,22 @@ jobs:
 
     - name: Run tests
       run: pytest
+  sca:
+    needs: test
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: SonarQube Scan
+        uses: sonarsource/sonarcloud-github-action@v1
+        with:
+          organization: 'adrien-fort'
+          token: ${{ secrets.SONARQUBE_TOKEN }}
+
+  deployment:
+    needs: sca
+    runs-on: ubuntu-latest
+
+    steps:
     - name: Azure Login
       uses: azure/login@v1
       with:
