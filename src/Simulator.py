@@ -10,7 +10,7 @@ sys.path.insert(0, project_root)
 from src.setup import configure_logging
 from src.field import Field
 from src.car import car_creation
-from src.simul import run_simul
+from src.simulation import run_simulation
 
 
 def main():
@@ -37,7 +37,7 @@ def main():
             #calling the simulation and breaking out of the nested loop, as per requirement a different prompt is expected after simulation has run
             elif option == '2':
                 logging.info("User has opted to run the simulation.")
-                run_simul(simulation_field, cars)
+                run_simulation(simulation_field, cars)
 
                 break
             else:

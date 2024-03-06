@@ -2,7 +2,7 @@ from io import StringIO
 import sys
 import pytest
 from unittest.mock import patch, MagicMock
-from src.simul import Simulation, CarSimulation, run_simul
+from src.simulation import Simulation, CarSimulation, run_simulation
 from src.car import Car
 from src.field import Field
 
@@ -92,7 +92,7 @@ def test_run_simul_nocol(capsys):
     captured_output = StringIO()
     sys.stdout = captured_output
     try:
-        run_simul(field, cars)
+        run_simulation(field, cars)
         captured_output_str = captured_output.getvalue()
         expected_output = "\nYour current list of cars are:\n- Car1, (2, 2) N, ['F', 'L', 'F']\n- Car2, (3, 3) S, ['F', 'R', 'F']\n\nAfter simulation, the result is:\n- Car1, (1,3) W\n- Car2, (2,2) W\n"
         assert captured_output_str == expected_output
@@ -109,7 +109,7 @@ def test_run_simul_col(capsys):
     captured_output = StringIO()
     sys.stdout = captured_output
     try:
-        run_simul(field, cars)
+        run_simulation(field, cars)
         captured_output_str = captured_output.getvalue()
         expected_output = "\nYour current list of cars are:\n- Car1, (2, 3) E, ['F', 'F', 'R']\n- Car2, (4, 3) W, ['F', 'F', 'L']\n\nAfter simulation, the result is:\n- Car1, collides with Car2 at (3,3) at step 1\n- Car2, collides with Car1 at (3,3) at step 1\n"
         assert captured_output_str == expected_output

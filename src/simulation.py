@@ -90,7 +90,7 @@ class CarSimulation(Simulation):
             print(f"Unknown command '{command}' for car '{car.name}'")
 
 # This function is really specific to the car run currently, if other simulations are added this would require some refactoring
-def run_simul(field, cars):
+def run_simulation(field, cars):
     if not cars:
         print("You are trying to run a simulation without any car saved, please start over!")
         logging.warning("User was trying to run a simulation without any car saved and was prompted to start over.")
